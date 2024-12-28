@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A12075052D2057A5007DD764 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A12075042D2057A5007DD764 /* RxCocoa */; };
+		A12075082D2057C2007DD764 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = A12075072D2057C2007DD764 /* RxRelay */; };
+		A120750B2D2057F2007DD764 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A120750A2D2057F2007DD764 /* Moya */; };
+		A120750D2D2057F2007DD764 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = A120750C2D2057F2007DD764 /* RxMoya */; };
 		A1B30A722D1F99AB00E6F4F4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B30A712D1F99AB00E6F4F4 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +44,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A120750D2D2057F2007DD764 /* RxMoya in Frameworks */,
+				A12075082D2057C2007DD764 /* RxRelay in Frameworks */,
+				A12075052D2057A5007DD764 /* RxCocoa in Frameworks */,
+				A120750B2D2057F2007DD764 /* Moya in Frameworks */,
 				A1B30A722D1F99AB00E6F4F4 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,10 +55,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A12075062D2057C2007DD764 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A1B30A272D1F95C100E6F4F4 = {
 			isa = PBXGroup;
 			children = (
 				A1B30A322D1F95C100E6F4F4 /* PokemonPictorialBook */,
+				A12075062D2057C2007DD764 /* Frameworks */,
 				A1B30A312D1F95C100E6F4F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,6 +100,10 @@
 			name = PokemonPictorialBook;
 			packageProductDependencies = (
 				A1B30A712D1F99AB00E6F4F4 /* SnapKit */,
+				A12075042D2057A5007DD764 /* RxCocoa */,
+				A12075072D2057C2007DD764 /* RxRelay */,
+				A120750A2D2057F2007DD764 /* Moya */,
+				A120750C2D2057F2007DD764 /* RxMoya */,
 			);
 			productName = PokemonPictorialBook;
 			productReference = A1B30A302D1F95C100E6F4F4 /* PokemonPictorialBook.app */;
@@ -115,6 +135,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A1B30A702D1F99AB00E6F4F4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				A12075092D2057F2007DD764 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1B30A312D1F95C100E6F4F4 /* Products */;
@@ -344,6 +366,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+		A12075092D2057F2007DD764 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
 		A1B30A702D1F99AB00E6F4F4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -355,6 +393,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A12075042D2057A5007DD764 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		A12075072D2057C2007DD764 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		A120750A2D2057F2007DD764 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A12075092D2057F2007DD764 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		A120750C2D2057F2007DD764 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A12075092D2057F2007DD764 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
 		A1B30A712D1F99AB00E6F4F4 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A1B30A702D1F99AB00E6F4F4 /* XCRemoteSwiftPackageReference "SnapKit" */;
