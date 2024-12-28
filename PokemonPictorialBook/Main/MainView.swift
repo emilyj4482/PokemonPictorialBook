@@ -16,6 +16,21 @@ class MainView: UIView {
         return imageView
     }()
     
+    private lazy var pokemonCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        
+        collectionView.backgroundColor = .darkRed
+        collectionView.register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.identifier)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        return collectionView
+    }()
+
+    private var collectionViewLayout: UICollectionViewLayout {
+        
+    }
+     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
@@ -27,7 +42,7 @@ class MainView: UIView {
     }
     
     private func addSubviews() {
-        addSubviews([pokemonBallImageView])
+        addSubviews([pokemonBallImageView, pokemonCollectionView])
     }
     
     private func layout() {
@@ -37,5 +52,26 @@ class MainView: UIView {
             $0.width.equalToSuperview().dividedBy(3)
             $0.height.equalTo(pokemonBallImageView.snp.width)
         }
+        
+        pokemonCollectionView.snp.makeConstraints {
+            $0.top.equalTo(pokemonBallImageView.snp.bottom).offset(10)
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
     }
+}
+
+extension MainView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell else { return UICollectionViewCell() }
+        
+        return cell
+    }
+}
+
+extension MainView: UICollectionViewDelegate {
+    
 }
