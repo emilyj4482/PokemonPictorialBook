@@ -14,7 +14,6 @@ class PokemonCell: UICollectionViewCell {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 10
         
         return imageView
     }()
@@ -34,6 +33,9 @@ class PokemonCell: UICollectionViewCell {
     }
     
     private func layout() {
+        backgroundColor = .cellBackground
+        layer.cornerRadius = 10
+        
         pokemonImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
