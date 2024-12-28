@@ -11,8 +11,10 @@ class MainView: UIView {
     
     private lazy var pokemonBallImageView: UIImageView = {
         let imageView = UIImageView()
+        
         imageView.image = .pokemonBall
         imageView.contentMode = .scaleAspectFit
+        
         return imageView
     }()
     
