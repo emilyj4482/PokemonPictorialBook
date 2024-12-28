@@ -14,9 +14,13 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         addSubviews()
         layout()
+        containerView.setDelegate(self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupNavigationBar()
     }
     
     private func setupNavigationBar() {
@@ -35,5 +39,12 @@ class MainViewController: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalTo(safeArea)
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

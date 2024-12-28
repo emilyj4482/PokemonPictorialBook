@@ -24,7 +24,6 @@ class MainView: UIView {
         collectionView.backgroundColor = .darkRed
         collectionView.register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.identifier)
         collectionView.dataSource = self
-        collectionView.delegate = self
         
         return collectionView
     }()
@@ -34,7 +33,7 @@ class MainView: UIView {
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        item.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
+        item.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1/3))
         
@@ -72,6 +71,10 @@ class MainView: UIView {
             $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
+    
+    func setDelegate(_ delegate: UICollectionViewDelegate) {
+        pokemonCollectionView.delegate = delegate
+    }
 }
 
 extension MainView: UICollectionViewDataSource {
@@ -86,8 +89,4 @@ extension MainView: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-extension MainView: UICollectionViewDelegate {
-    
 }
