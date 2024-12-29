@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import Moya
 import Alamofire
 import RxSwift
 
 class NetworkManager {
     static let shared = NetworkManager()
+    
+    let provider = MoyaProvider<PokemonAPI>()
     
     private init() {}
     
@@ -26,5 +29,42 @@ class NetworkManager {
             }
             return Disposables.create()
         }
+    }
+}
+
+enum PokemonAPI {
+    case fetchURL(offset: Int)
+    case fetchPokemon(id: Int)
+}
+
+extension PokemonAPI: TargetType {
+    var baseURL: URL {
+        URL(string: "https://pokeapi.co/api/v2")!
+    }
+    
+    var path: String {
+        switch self {
+        case .fetchURL:
+            return "/pokemon"
+        case .fetchPokemon(let id):
+            return "/pokemon/\(id)"
+        }
+    }
+    
+    var method: Moya.Method {
+        .get
+    }
+    
+    var task: Moya.Task {
+        switch self {
+        case .fetchURL(let offset):
+                .requestParameters(parameters: ["limit": "20", "offset": "\(offset)"], encoding: URLEncoding.queryString)
+        case .fetchPokemon:
+                .requestPlain
+        }
+    }
+    
+    var headers: [String : String]? {
+        nil
     }
 }

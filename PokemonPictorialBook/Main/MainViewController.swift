@@ -7,8 +7,12 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class MainViewController: UIViewController {
+    
+    private let vm: MainViewModel = .init()
+    private let disposeBag = DisposeBag()
     
     private lazy var containerView: MainView = .init()
 
@@ -17,6 +21,27 @@ class MainViewController: UIViewController {
         addSubviews()
         layout()
         containerView.setDelegate(self)
+        vm.pokemonList
+            .subscribe(
+                onNext: {
+                    print($0)
+                },
+                onError: {
+                    print($0)
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        vm.pokemonDetail
+            .subscribe(
+                onNext: {
+                    print($0)
+                },
+                onError:  {
+                    print($0)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
