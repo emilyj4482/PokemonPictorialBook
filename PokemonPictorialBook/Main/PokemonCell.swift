@@ -1,5 +1,5 @@
 //
-//  PokemonCollectionView.swift
+//  PokemonCell.swift
 //  PokemonPictorialBook
 //
 //  Created by EMILY on 28/12/2024.
@@ -27,6 +27,11 @@ class PokemonCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pokemonImageView.image = .pokemonBall
     }
     
     private func addSubviews() {
