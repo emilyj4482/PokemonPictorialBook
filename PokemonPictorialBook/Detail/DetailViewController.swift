@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 class DetailViewController: UIViewController {
+    
+    private let disposeBag = DisposeBag()
+    private var vm: DetailViewModel = .init("https://pokeapi.co/api/v2/pokemon/132")
     
     private lazy var containerView: DetailView = .init()
 
@@ -15,6 +19,18 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         layout()
+        
+        vm.pokemonDetail
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: {
+                    print($0)
+                },
+                onError:  {
+                    print($0)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
