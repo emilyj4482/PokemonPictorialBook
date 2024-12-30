@@ -67,8 +67,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.vm = .init(pokemons[indexPath.item].url)
+        let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
         navigationController?.pushViewController(vc, animated: true)
     }
 }

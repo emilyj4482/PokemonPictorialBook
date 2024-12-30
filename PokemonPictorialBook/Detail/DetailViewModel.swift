@@ -15,13 +15,11 @@ class DetailViewModel {
     
     let pokemonDetail = PublishSubject<Pokemon>()
     
-    init(_ urlString: String) {
+    init(_ urlString: String = "https://pokeapi.co/api/v2/pokemon/132") {
         fetchPokemonDetail(urlString)
     }
-    
-    // func fetchPokemonDetail(_ id: String) {
+
     func fetchPokemonDetail(_ urlString: String) {
-        // guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(id)") else {
         guard let url = URL(string: urlString) else {
             pokemonDetail.onError(NetworkError.invalidURL)
             return
