@@ -11,7 +11,7 @@ struct PokemonURL: Decodable {
     let results: [PokemonResult]
 }
 
-struct PokemonResult: Decodable {
+struct PokemonResult: Decodable, Hashable {
     let name: String
     let url: String
     

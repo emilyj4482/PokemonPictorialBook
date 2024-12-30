@@ -15,8 +15,6 @@ class MainViewController: UIViewController {
     
     private let vm: MainViewModel = .init()
     
-    private var pokemons = [PokemonResult]()
-    
     private lazy var containerView: MainView = .init()
 
     override func viewDidLoad() {
@@ -54,7 +52,7 @@ class MainViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] pokemons in
-                    self?.pokemons = pokemons
+                    self?.containerView.reloadCollectionView(with: pokemons)
                 },
                 onError: { error in
                     print(error)
