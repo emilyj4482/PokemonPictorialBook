@@ -11,8 +11,11 @@ import RxSwift
 
 class MainViewController: UIViewController {
     
-    private let vm: MainViewModel = .init()
     private let disposeBag = DisposeBag()
+    
+    private let vm: MainViewModel = .init()
+    
+    private var pokemons = [PokemonResult]()
     
     private lazy var containerView: MainView = .init()
 
@@ -21,27 +24,7 @@ class MainViewController: UIViewController {
         addSubviews()
         layout()
         containerView.setDelegate(self)
-        vm.pokemonList
-            .subscribe(
-                onNext: {
-                    print($0)
-                },
-                onError: {
-                    print($0)
-                }
-            )
-            .disposed(by: disposeBag)
-        
-        vm.pokemonDetail
-            .subscribe(
-                onNext: {
-                    print($0)
-                },
-                onError:  {
-                    print($0)
-                }
-            )
-            .disposed(by: disposeBag)
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +47,20 @@ class MainViewController: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalTo(safeArea)
         }
+    }
+    
+    private func bind() {
+        vm.pokemonList
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] pokemons in
+                    self?.pokemons = pokemons
+                },
+                onError: { error in
+                    print(error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }
 
