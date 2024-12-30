@@ -11,7 +11,7 @@ import RxSwift
 class DetailViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
-    private var vm: DetailViewModel = .init("https://pokeapi.co/api/v2/pokemon/132")
+    var vm: DetailViewModel = .init("https://pokeapi.co/api/v2/pokemon/132")
     
     private lazy var containerView: DetailView = .init()
 
@@ -23,8 +23,8 @@ class DetailViewController: UIViewController {
         vm.pokemonDetail
             .observe(on: MainScheduler.instance)
             .subscribe(
-                onNext: {
-                    print($0)
+                onNext: { [weak self] pokemon in
+                    self?.containerView.configure(pokemon)
                 },
                 onError:  {
                     print($0)
