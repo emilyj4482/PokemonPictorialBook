@@ -34,7 +34,7 @@ extension PokemonAPI: TargetType {
     var task: Moya.Task {
         switch self {
         case .fetchURL(let offset):
-                .requestParameters(parameters: ["limit": "20", "offset": "\(offset)"], encoding: URLEncoding.queryString)
+                .requestParameters(parameters: ["limit": "21", "offset": "\(offset)"], encoding: URLEncoding.queryString)
         case .fetchPokemon:
                 .requestPlain
         }
