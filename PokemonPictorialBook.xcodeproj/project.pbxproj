@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10E2C422D2228D70005D485 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A10E2C412D2228D70005D485 /* Kingfisher */; };
 		A12075052D2057A5007DD764 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A12075042D2057A5007DD764 /* RxCocoa */; };
 		A12075082D2057C2007DD764 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = A12075072D2057C2007DD764 /* RxRelay */; };
 		A120750B2D2057F2007DD764 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A120750A2D2057F2007DD764 /* Moya */; };
@@ -44,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10E2C422D2228D70005D485 /* Kingfisher in Frameworks */,
 				A120750D2D2057F2007DD764 /* RxMoya in Frameworks */,
 				A12075082D2057C2007DD764 /* RxRelay in Frameworks */,
 				A12075052D2057A5007DD764 /* RxCocoa in Frameworks */,
@@ -104,6 +106,7 @@
 				A12075072D2057C2007DD764 /* RxRelay */,
 				A120750A2D2057F2007DD764 /* Moya */,
 				A120750C2D2057F2007DD764 /* RxMoya */,
+				A10E2C412D2228D70005D485 /* Kingfisher */,
 			);
 			productName = PokemonPictorialBook;
 			productReference = A1B30A302D1F95C100E6F4F4 /* PokemonPictorialBook.app */;
@@ -137,6 +140,7 @@
 				A1B30A702D1F99AB00E6F4F4 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				A12075092D2057F2007DD764 /* XCRemoteSwiftPackageReference "Moya" */,
+				A10E2C402D2228D70005D485 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1B30A312D1F95C100E6F4F4 /* Products */;
@@ -366,6 +370,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A10E2C402D2228D70005D485 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.3;
+			};
+		};
 		A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -393,6 +405,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A10E2C412D2228D70005D485 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10E2C402D2228D70005D485 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		A12075042D2057A5007DD764 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */;
