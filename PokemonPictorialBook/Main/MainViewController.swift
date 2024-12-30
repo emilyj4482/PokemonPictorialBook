@@ -7,8 +7,15 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class MainViewController: UIViewController {
+    
+    private let disposeBag = DisposeBag()
+    
+    private let vm: MainViewModel = .init()
+    
+    private var pokemons = [PokemonResult]()
     
     private lazy var containerView: MainView = .init()
 
@@ -17,6 +24,7 @@ class MainViewController: UIViewController {
         addSubviews()
         layout()
         containerView.setDelegate(self)
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,6 +47,20 @@ class MainViewController: UIViewController {
         containerView.snp.makeConstraints {
             $0.edges.equalTo(safeArea)
         }
+    }
+    
+    private func bind() {
+        vm.pokemonList
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] pokemons in
+                    self?.pokemons = pokemons
+                },
+                onError: { error in
+                    print(error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }
 

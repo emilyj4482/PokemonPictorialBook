@@ -36,13 +36,12 @@ class DetailStackView: UIStackView {
     private func detailLabel() -> UILabel {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .systemFont(ofSize: 18)
         label.textColor = .white
         label.textAlignment = .center
         
         return label
     }
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
