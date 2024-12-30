@@ -18,31 +18,7 @@ class MainView: UIView {
         return imageView
     }()
     
-    private lazy var pokemonCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        
-        collectionView.backgroundColor = .darkRed
-        collectionView.register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.identifier)
-        collectionView.dataSource = self
-        
-        return collectionView
-    }()
-
-    private var collectionViewLayout: UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/3))
-        
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        item.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1/3))
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return UICollectionViewCompositionalLayout(section: section)
-    }
+    private lazy var pokemonCollectionView: PokemonCollectionView = .init()
      
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,18 +51,11 @@ class MainView: UIView {
     func setDelegate(_ delegate: UICollectionViewDelegate) {
         pokemonCollectionView.delegate = delegate
     }
-}
-
-extension MainView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        30
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell else { return UICollectionViewCell() }
-        
-        cell.configure(.pokemonBall)
-        
-        return cell
+    func reloadCollectionView(with items: [PokemonResult]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, PokemonResult>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items, toSection: .main)
+        pokemonCollectionView.applyDataSource(snapshot)
     }
 }
