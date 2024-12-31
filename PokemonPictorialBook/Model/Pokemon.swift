@@ -15,7 +15,7 @@ struct Pokemon: Decodable {
     let weight: Double
     
     var translatedName: String {
-        PokemonTranslator.getKoreanName(for: name)
+        PokemonNameTranslator.getKoreanName(for: name)
     }
 }
 

@@ -1,13 +1,13 @@
 //
-//  PokemonTranslator.swift
-//  PokedexApp
+//  PokemonNameTranslator.swift
+//  PokemonPictorialBook
 //
-//  Created by 김동현 on 8/8/24.
-//
+//  Created by 김동현 on 08/08/2024.
+//  Edited by EMILY on 31/12/2024.
 
 import Foundation
 
-enum PokemonTranslator {
+enum PokemonNameTranslator {
     private static let koreanNames: [String: String] = [
         "bulbasaur": "이상해씨",
         "ivysaur": "이상해풀",
@@ -394,7 +394,7 @@ enum PokemonTranslator {
         "groudon": "그란돈",
         "rayquaza": "레쿠쟈",
         "jirachi": "지라치",
-        "deoxys": "테오키스",
+        "deoxys-normal": "테오키스",
         "turtwig": "모부기",
         "grotle": "수풀부기",
         "torterra": "토대부기",
