@@ -54,8 +54,8 @@ class MainViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] pokemons in
-                    self?.containerView.reloadCollectionView(with: pokemons)
-                    self?.pokemons = pokemons
+                    self?.containerView.updateCollectionViewDataSource(with: pokemons)
+                    self?.pokemons.append(contentsOf: pokemons)
                 },
                 onError: { error in
                     print(error)
@@ -69,5 +69,13 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView.contentSize.height - scrollView.contentOffset.y == 624 {
+            vm.fetchPokemonList()
+        }
     }
 }

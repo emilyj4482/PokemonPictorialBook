@@ -1,13 +1,13 @@
 //
-//  PokemonTranslator.swift
-//  PokedexApp
+//  PokemonNameTranslator.swift
+//  PokemonPictorialBook
 //
-//  Created by 김동현 on 8/8/24.
-//
+//  Created by 김동현 on 08/08/2024.
+//  Edited by EMILY on 31/12/2024.
 
 import Foundation
 
-enum PokemonTranslator {
+enum PokemonNameTranslator {
     private static let koreanNames: [String: String] = [
         "bulbasaur": "이상해씨",
         "ivysaur": "이상해풀",
@@ -130,7 +130,7 @@ enum PokemonTranslator {
         "seaking": "왕콘치",
         "staryu": "별가사리",
         "starmie": "아쿠스타",
-        "mr. mime": "마임맨",
+        "mr-mime": "마임맨",
         "scyther": "스라크",
         "jynx": "루주라",
         "electabuzz": "에레브",
@@ -394,7 +394,7 @@ enum PokemonTranslator {
         "groudon": "그란돈",
         "rayquaza": "레쿠쟈",
         "jirachi": "지라치",
-        "deoxys": "테오키스",
+        "deoxys-normal": "테오키스",
         "turtwig": "모부기",
         "grotle": "수풀부기",
         "torterra": "토대부기",
@@ -447,7 +447,7 @@ enum PokemonTranslator {
         "bronzor": "동미러",
         "bronzong": "동탁군",
         "bonsly": "꼬지지",
-        "mime jr.": "흉내내",
+        "mime-jr": "흉내내",
         "happiny": "핑복",
         "chatot": "페라페",
         "spiritomb": "화강돌",
@@ -874,7 +874,7 @@ enum PokemonTranslator {
         "perrserker": "나이킹",
         "cursola": "산호르곤",
         "sirfetch'd": "창파나이트",
-        "mr. rime": "마임꽁꽁",
+        "mr-rime": "마임꽁꽁",
         "runerigus": "데스판",
         "milcery": "마빌크",
         "alcremie": "마휘핑",

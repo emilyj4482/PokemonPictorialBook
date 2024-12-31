@@ -52,10 +52,7 @@ class MainView: UIView {
         pokemonCollectionView.delegate = delegate
     }
     
-    func reloadCollectionView(with items: [PokemonResult]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, PokemonResult>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(items, toSection: .main)
-        pokemonCollectionView.applyDataSource(snapshot)
+    func updateCollectionViewDataSource(with items: [PokemonResult]) {
+        pokemonCollectionView.updateDataSource(with: items)
     }
 }

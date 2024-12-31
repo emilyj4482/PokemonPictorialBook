@@ -2,7 +2,7 @@
 //  PokemonTypeTranslator.swift
 //  PokemonPictorialBook
 //
-//  Created by EMILY on 31/12/2024.
+//  Edited by EMILY on 31/12/2024.
 //
 
 import Foundation

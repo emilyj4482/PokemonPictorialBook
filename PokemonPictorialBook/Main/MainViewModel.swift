@@ -15,12 +15,16 @@ class MainViewModel {
     
     let pokemonList = PublishSubject<[PokemonResult]>()
     
+    private var offset: Int = -20
+    
     init() {
         fetchPokemonList()
     }
     
     func fetchPokemonList() {
-        provider.request(.fetchURL(offset: 24)) { [weak self] result in
+        offset += 20
+        
+        provider.request(.fetchURL(offset: offset)) { [weak self] result in
             switch result {
             case .success(let response):
                 do {

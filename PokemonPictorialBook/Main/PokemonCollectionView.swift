@@ -18,6 +18,8 @@ class PokemonCollectionView: UICollectionView {
         }
     }()
     
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, PokemonResult>()
+    
     init() {
         let layout: UICollectionViewCompositionalLayout = {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/3))
@@ -34,7 +36,6 @@ class PokemonCollectionView: UICollectionView {
         }()
         
         super.init(frame: .zero, collectionViewLayout: layout)
-        dataSource = diffableDataSource
         setup()
     }
     
@@ -44,11 +45,16 @@ class PokemonCollectionView: UICollectionView {
     
     private func setup() {
         backgroundColor = .darkRed
+        
         register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.identifier)
+
+        dataSource = diffableDataSource
+        snapshot.appendSections([.main])
     }
     
-    func applyDataSource(_ snapshot: NSDiffableDataSourceSnapshot<Section, PokemonResult>) {
-        diffableDataSource.apply(snapshot)
+    func updateDataSource(with items: [PokemonResult]) {
+        snapshot.appendItems(items, toSection: .main)
+        diffableDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
