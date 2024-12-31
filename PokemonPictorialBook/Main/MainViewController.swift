@@ -78,7 +78,7 @@ extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y == offset {
             vm.fetchPokemonList()
-            offset += scrollView.visibleSize.height
+            offset += 938.0
         }
     }
 }
