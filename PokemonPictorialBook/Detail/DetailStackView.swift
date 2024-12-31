@@ -76,8 +76,8 @@ class DetailStackView: UIStackView {
         
         nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
         typeLabel.text = "타입 : \(pokemon.types[0].type.translatedType)"
-        heightLabel.text = "키 : \(pokemon.height * 0.1)m"
-        weightLabel.text = "몸무게 : \(pokemon.weight * 0.1)kg"
+        heightLabel.text = "키 : \(pokemon.height.converted)m"
+        weightLabel.text = "몸무게 : \(pokemon.weight.converted)kg"
         
         // type이 2개 이상일 경우
         if pokemon.types.count > 1 {
