@@ -35,4 +35,8 @@ class DetailView: UIView {
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
+    
+    func configure(_ pokemon: Pokemon) {
+        detailStackView.configure(pokemon)
+    }
 }

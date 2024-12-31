@@ -13,6 +13,10 @@ struct Pokemon: Decodable {
     let types: [PokemonType]
     let height: Double
     let weight: Double
+    
+    var translatedName: String {
+        PokemonTranslator.getKoreanName(for: name)
+    }
 }
 
 struct PokemonType: Decodable {
@@ -21,4 +25,8 @@ struct PokemonType: Decodable {
 
 struct PokemonTypeName: Decodable {
     let name: String
+    
+    var translatedType: String {
+        PokemonTypeTranslator(rawValue: name)?.toKorean ?? name
+    }
 }

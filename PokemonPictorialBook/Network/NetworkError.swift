@@ -9,11 +9,14 @@ import Foundation
 
 enum NetworkError: Error {
     case invalidURL
+    case decodingFailed
     
     var localizedDescription: String {
         switch self {
         case .invalidURL:
             "[Error] URL invalid"
+        case .decodingFailed:
+            "[Error] Decoding failed"
         }
     }
 }

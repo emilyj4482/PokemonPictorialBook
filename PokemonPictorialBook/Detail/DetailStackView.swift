@@ -47,7 +47,6 @@ class DetailStackView: UIStackView {
         super.init(frame: frame)
         addArrangedSubviews()
         layout()
-        configure()
     }
     
     required init(coder: NSCoder) {
@@ -70,18 +69,19 @@ class DetailStackView: UIStackView {
         }
     }
     
-    func configure() {
-        // temporary info
-        let number = 54
-        let name = "고라파덕"
-        let type = "물"
-        let height = 0.8
-        let weight = 19.6
+    func configure(_ pokemon: Pokemon) {
+        guard let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(pokemon.id).png") else { return }
         
-        pokemonImageView.image = .pokemonBall
-        nameLabel.text = "No.\(number) \(name)"
-        typeLabel.text = "타입 : \(type)"
-        heightLabel.text = "키 : \(height)m"
-        weightLabel.text = "몸무게 : \(weight)kg"
+        pokemonImageView.kf.setImage(with: url)
+        
+        nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
+        typeLabel.text = "타입 : \(pokemon.types[0].type.translatedType)"
+        heightLabel.text = "키 : \(pokemon.height.converted)m"
+        weightLabel.text = "몸무게 : \(pokemon.weight.converted)kg"
+        
+        // type이 2개 이상일 경우
+        if pokemon.types.count > 1 {
+            typeLabel.text?.append(", \(pokemon.types[1].type.translatedType)")
+        }
     }
 }
