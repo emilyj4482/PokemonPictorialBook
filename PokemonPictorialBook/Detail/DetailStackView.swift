@@ -73,9 +73,15 @@ class DetailStackView: UIStackView {
         guard let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(pokemon.id).png") else { return }
         
         pokemonImageView.kf.setImage(with: url)
-        nameLabel.text = "No.\(pokemon.id) \(pokemon.name)"
-        typeLabel.text = "타입 : \(pokemon.types[0].type.name)"
+        
+        nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
+        typeLabel.text = "타입 : \(pokemon.types[0].type.translatedType)"
         heightLabel.text = "키 : \(pokemon.height * 0.1)m"
         weightLabel.text = "몸무게 : \(pokemon.weight * 0.1)kg"
+        
+        // type이 2개 이상일 경우
+        if pokemon.types.count > 1 {
+            typeLabel.text?.append(", \(pokemon.types[1].type.translatedType)")
+        }
     }
 }
