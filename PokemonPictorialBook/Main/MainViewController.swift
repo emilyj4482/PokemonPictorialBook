@@ -18,8 +18,6 @@ class MainViewController: UIViewController {
     private var pokemons = [PokemonResult]()
     
     private lazy var containerView: MainView = .init()
-    
-    private var offset: Double = 314.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,9 +74,8 @@ extension MainViewController: UICollectionViewDelegate {
 
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y == offset {
+        if scrollView.contentSize.height - scrollView.contentOffset.y == 624 {
             vm.fetchPokemonList()
-            offset += 938.0
         }
     }
 }
