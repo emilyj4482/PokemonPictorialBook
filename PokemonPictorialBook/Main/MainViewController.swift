@@ -54,8 +54,8 @@ class MainViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] pokemons in
-                    self?.containerView.reloadCollectionView(with: pokemons)
-                    self?.pokemons = pokemons
+                    self?.containerView.updateCollectionViewDataSource(with: pokemons)
+                    self?.pokemons.append(contentsOf: pokemons)
                 },
                 onError: { error in
                     print(error)
