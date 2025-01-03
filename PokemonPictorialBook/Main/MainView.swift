@@ -18,7 +18,7 @@ class MainView: UIView {
         return imageView
     }()
     
-    private lazy var pokemonCollectionView: PokemonCollectionView = .init()
+    private(set) lazy var pokemonCollectionView: PokemonCollectionView = .init()
      
     override init(frame: CGRect) {
         super.init(frame: frame)

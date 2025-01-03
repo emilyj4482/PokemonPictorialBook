@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxCocoa
 
 class MainViewController: UIViewController {
     
@@ -23,7 +24,6 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         layout()
-        containerView.setDelegate(self)
         bind()
     }
     
@@ -62,18 +62,26 @@ class MainViewController: UIViewController {
                 }
             )
             .disposed(by: disposeBag)
-    }
-}
-
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.contentSize.height - scrollView.contentOffset.y == scrollView.visibleSize.height {
-            vm.fetchPokemonList()
-        }
+        
+        containerView.pokemonCollectionView.rx.itemSelected
+            .subscribe(
+                onNext: { [weak self] indexPath in
+                    guard let self = self else { return }
+                    let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
+                    navigationController?.pushViewController(vc, animated: true)
+                }
+            )
+            .disposed(by: disposeBag)
+        
+        containerView.pokemonCollectionView.rx.didEndDecelerating
+            .subscribe(
+                onNext: { [weak self] in
+                    guard let scrollView = self?.containerView.pokemonCollectionView else { return }
+                    if scrollView.contentSize.height - scrollView.contentOffset.y == scrollView.visibleSize.height {
+                        self?.vm.fetchPokemonList()
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }
