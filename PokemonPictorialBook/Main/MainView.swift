@@ -48,10 +48,6 @@ class MainView: UIView {
         }
     }
     
-    func setDelegate(_ delegate: UICollectionViewDelegate) {
-        pokemonCollectionView.delegate = delegate
-    }
-    
     func updateCollectionViewDataSource(with items: [PokemonResult]) {
         pokemonCollectionView.updateDataSource(with: items)
     }
