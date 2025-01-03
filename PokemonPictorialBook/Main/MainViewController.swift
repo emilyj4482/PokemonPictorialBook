@@ -72,7 +72,7 @@ extension MainViewController: UICollectionViewDelegate {
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.contentSize.height - scrollView.contentOffset.y == 624 {
+        if scrollView.contentSize.height - scrollView.contentOffset.y == scrollView.visibleSize.height {
             vm.fetchPokemonList()
         }
     }
