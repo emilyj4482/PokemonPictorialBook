@@ -75,13 +75,8 @@ class DetailStackView: UIStackView {
         pokemonImageView.kf.setImage(with: url)
         
         nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
-        typeLabel.text = "타입 : \(pokemon.types[0].type.translatedType)"
+        typeLabel.text = "타입 : \(pokemon.types.map { $0.type.translatedType }.joined(separator: ", "))"
         heightLabel.text = "키 : \(pokemon.height.converted)m"
         weightLabel.text = "몸무게 : \(pokemon.weight.converted)kg"
-        
-        // type이 2개 이상일 경우
-        if pokemon.types.count > 1 {
-            typeLabel.text?.append(", \(pokemon.types[1].type.translatedType)")
-        }
     }
 }

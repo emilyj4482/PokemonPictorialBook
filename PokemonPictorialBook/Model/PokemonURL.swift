@@ -16,7 +16,7 @@ struct PokemonResult: Decodable, Hashable {
     let url: String
     
     var pokemonId: String {
-        guard let firstIndex = url.dropLast().lastIndex(of: "/") else { return "" }
-        return String(url[firstIndex..<url.endIndex].dropFirst().dropLast())
+        guard let id = url.split(separator: "/").last else { return "" }
+        return String(id)
     }
 }
