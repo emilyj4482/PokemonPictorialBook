@@ -10,7 +10,6 @@ import Moya
 
 enum PokemonAPI {
     case fetchURL(offset: Int)
-    case fetchPokemon(id: Int)
 }
 
 extension PokemonAPI: TargetType {
@@ -22,8 +21,6 @@ extension PokemonAPI: TargetType {
         switch self {
         case .fetchURL:
             return "/pokemon"
-        case .fetchPokemon(let id):
-            return "/pokemon/\(id)"
         }
     }
     
@@ -35,8 +32,6 @@ extension PokemonAPI: TargetType {
         switch self {
         case .fetchURL(let offset):
                 .requestParameters(parameters: ["limit": "20", "offset": "\(offset)"], encoding: URLEncoding.queryString)
-        case .fetchPokemon:
-                .requestPlain
         }
     }
     

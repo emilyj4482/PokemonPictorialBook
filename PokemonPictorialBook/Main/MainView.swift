@@ -18,7 +18,7 @@ class MainView: UIView {
         return imageView
     }()
     
-    private lazy var pokemonCollectionView: PokemonCollectionView = .init()
+    private(set) lazy var pokemonCollectionView: PokemonCollectionView = .init()
      
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,10 +46,6 @@ class MainView: UIView {
             $0.top.equalTo(pokemonBallImageView.snp.bottom).offset(10)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
-    }
-    
-    func setDelegate(_ delegate: UICollectionViewDelegate) {
-        pokemonCollectionView.delegate = delegate
     }
     
     func updateCollectionViewDataSource(with items: [PokemonResult]) {

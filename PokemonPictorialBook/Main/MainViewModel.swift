@@ -6,14 +6,17 @@
 //
 
 import Foundation
-import RxSwift
 import Moya
+import RxMoya
+import RxSwift
+import RxCocoa
 
 class MainViewModel {
     
+    private let disposeBag = DisposeBag()
     private let provider = MoyaProvider<PokemonAPI>()
     
-    let pokemonList = PublishSubject<[PokemonResult]>()
+    let pokemonList = PublishRelay<[PokemonResult]>()
     
     private var offset: Int = -20
     
@@ -24,18 +27,16 @@ class MainViewModel {
     func fetchPokemonList() {
         offset += 20
         
-        provider.request(.fetchURL(offset: offset)) { [weak self] result in
-            switch result {
-            case .success(let response):
-                do {
-                    let data = try JSONDecoder().decode(PokemonURL.self, from: response.data)
-                    self?.pokemonList.onNext(data.results)
-                } catch {
-                    self?.pokemonList.onError(NetworkError.decodingFailed)
+        provider.rx.request(.fetchURL(offset: offset))
+            .map(PokemonURL.self)
+            .subscribe(
+                onSuccess: { [weak self] response in
+                    self?.pokemonList.accept(response.results)
+                },
+                onFailure: { error in
+                    print(error.localizedDescription)
                 }
-            case .failure(let error):
-                self?.pokemonList.onError(error)
-            }
-        }
+            )
+            .disposed(by: disposeBag)
     }
 }
