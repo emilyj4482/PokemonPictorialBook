@@ -240,9 +240,7 @@ class DetailStackView: UIStackView {
     }()
     
     private lazy var typeLabel = detailLabel()
-    
     private lazy var heightLabel = detailLabel()
-    
     private lazy var weightLabel = detailLabel()
     
     private func detailLabel() -> UILabel {
@@ -380,7 +378,6 @@ class DetailStackView: UIStackView {
 ```swift
 class NetworkManager {
     static let shared = NetworkManager()
-    
     private init() {}
     
     func fetch<T: Decodable>(url: URL) -> Single<T> {
@@ -427,9 +424,7 @@ class DetailViewModel {
 ```swift
 class DetailViewController: UIViewController {
     private let disposeBag = DisposeBag()
-    
     var vm: DetailViewModel
-    
     private lazy var containerView: DetailView = .init()
 
     init(vm: DetailViewModel) {
