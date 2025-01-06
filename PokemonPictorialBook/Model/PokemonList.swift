@@ -15,8 +15,8 @@ struct PokemonResult: Decodable, Hashable {
     let name: String
     let url: String
     
-    var pokemonId: String {
-        guard let id = url.split(separator: "/").last else { return "" }
-        return String(id)
+    var id: Int {
+        guard let id = url.split(separator: "/").last else { return 132 }
+        return Int(id) ?? 132
     }
 }

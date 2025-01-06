@@ -6,9 +6,11 @@
 //
 
 import UIKit
-import Kingfisher
+import RxSwift
 
 class PokemonCell: UICollectionViewCell {
+    private let disposeBag = DisposeBag()
+    
     static let identifier = "PokemonCell"
     
     private lazy var pokemonImageView: UIImageView = {
@@ -48,7 +50,9 @@ class PokemonCell: UICollectionViewCell {
     }
     
     func configure(_ pokemon: PokemonResult) {
-        guard let url = URL(string: ImageURL.pokemon(id: pokemon.pokemonId).urlString) else { return }
-        pokemonImageView.kf.setImage(with: url)
+        pokemonImageView.rx.loadImage(id: pokemon.id)
+            .observe(on: MainScheduler.instance)
+            .bind(to: pokemonImageView.rx.image)
+            .disposed(by: disposeBag)
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 /// main view의 컬렉션 뷰 셀(PokemonCell)과 detail stack view에서 Kingfisher를 사용해서 이미지 configuring할 때 사용하는 url 재사용
 enum ImageURL {
-    case pokemon(id: any Comparable)
+    case pokemon(id: Int)
     
     var urlString: String {
         switch self {

@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
 
 /// DetailView의 subview
 class DetailStackView: UIStackView {
+    private let disposeBag = DisposeBag()
     
     private lazy var pokemonImageView: UIImageView = {
         let imageView = UIImageView()
@@ -71,9 +73,10 @@ class DetailStackView: UIStackView {
     }
     
     func configure(_ pokemon: PokemonDetail) {
-        guard let url = URL(string: ImageURL.pokemon(id: pokemon.id).urlString) else { return }
-        
-        pokemonImageView.kf.setImage(with: url)
+        pokemonImageView.rx.loadImage(id: pokemon.id)
+            .observe(on: MainScheduler.instance)
+            .bind(to: pokemonImageView.rx.image)
+            .disposed(by: disposeBag)
         
         nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
         typeLabel.text = "타입 : \(pokemon.types.map { $0.type.translatedType }.joined(separator: ", "))"
