@@ -27,10 +27,6 @@ class MainViewController: UIViewController {
         bind()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        setupNavigationBar()
-    }
-    
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = true
     }
@@ -51,6 +47,9 @@ class MainViewController: UIViewController {
     
     private func bind() {
         let load = self.rx.viewWillAppear
+            .do(onNext: { [weak self] in
+                self?.setupNavigationBar()
+            })
         let input = MainViewModel.Input(load: load)
         let output = vm.transform(input)
         

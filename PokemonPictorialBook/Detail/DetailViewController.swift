@@ -31,10 +31,6 @@ class DetailViewController: UIViewController {
         layout()
         bind()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        setupNavigationBar()
-    }
 
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
@@ -59,6 +55,9 @@ class DetailViewController: UIViewController {
     
     private func bind() {
         let load = self.rx.viewWillAppear
+            .do(onNext: { [weak self] in
+                self?.setupNavigationBar()
+            })
         let input = DetailViewModel.Input(load: load)
         let output = vm.transform(input)
         
