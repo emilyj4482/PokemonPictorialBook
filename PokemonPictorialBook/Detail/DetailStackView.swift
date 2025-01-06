@@ -12,7 +12,7 @@ import RxSwift
 class DetailStackView: UIStackView {
     private let disposeBag = DisposeBag()
     
-    private lazy var pokemonImageView: UIImageView = {
+    private(set) lazy var pokemonImageView: UIImageView = {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFit
@@ -20,7 +20,7 @@ class DetailStackView: UIStackView {
         return imageView
     }()
     
-    private lazy var nameLabel: UILabel = {
+    private(set) lazy var nameLabel: UILabel = {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 24, weight: .bold)
@@ -30,11 +30,11 @@ class DetailStackView: UIStackView {
         return label
     }()
     
-    private lazy var typeLabel = detailLabel()
+    private(set) lazy var typeLabel = detailLabel()
     
-    private lazy var heightLabel = detailLabel()
+    private(set) lazy var heightLabel = detailLabel()
     
-    private lazy var weightLabel = detailLabel()
+    private(set) lazy var weightLabel = detailLabel()
     
     private func detailLabel() -> UILabel {
         let label = UILabel()
@@ -70,17 +70,5 @@ class DetailStackView: UIStackView {
         pokemonImageView.snp.makeConstraints {
             $0.height.equalToSuperview().dividedBy(2)
         }
-    }
-    
-    func configure(_ pokemon: PokemonDetail) {
-        pokemonImageView.rx.loadImage(id: pokemon.id)
-            .observe(on: MainScheduler.instance)
-            .bind(to: pokemonImageView.rx.image)
-            .disposed(by: disposeBag)
-        
-        nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
-        typeLabel.text = "타입 : \(pokemon.types.map { $0.type.translatedType }.joined(separator: ", "))"
-        heightLabel.text = "키 : \(pokemon.height.converted)m"
-        weightLabel.text = "몸무게 : \(pokemon.weight.converted)kg"
     }
 }

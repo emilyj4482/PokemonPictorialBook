@@ -14,8 +14,6 @@ class MainViewModel {
     
     private let repository = PokemonRepository()
     
-    // let pokemonList = PublishRelay<[PokemonResult]>()
-    
     private var offset: Int = -20
     
     init() {

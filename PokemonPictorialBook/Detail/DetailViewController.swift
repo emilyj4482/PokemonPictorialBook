@@ -58,16 +58,44 @@ class DetailViewController: UIViewController {
     }
     
     private func bind() {
-        vm.pokemonDetail
+        let load = self.rx.viewWillAppear
+        let input = DetailViewModel.Input(load: load)
+        let output = vm.transform(input)
+        
+        // share : 여러번 사용할 observable에 대해 매번 새로 생성하지 않게 하는 코드
+        let pokemonDetail = output.pokemonDetail.share()
+        
+        pokemonDetail
+            .withUnretained(self)
+            .flatMapLatest { owner, pokemon in
+                owner.containerView.detailStackView.pokemonImageView.rx.loadImage(id: pokemon.id)
+            }
             .observe(on: MainScheduler.instance)
-            .subscribe(
-                onNext: { [weak self] pokemon in
-                    self?.containerView.configure(pokemon)
-                },
-                onError:  {
-                    print($0)
-                }
-            )
+            .bind(to: containerView.detailStackView.pokemonImageView.rx.image)
+            .disposed(by: disposeBag)
+        
+        pokemonDetail
+            .map { "No. \($0.id) \($0.translatedName)" }
+            .bind(to: containerView.detailStackView.nameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        pokemonDetail
+            .map { $0.types }
+            .map { $0.map { $0.type.translatedType }.joined(separator: ", ") }
+            .map { "타입 : \($0)" }
+            .bind(to: containerView.detailStackView.typeLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        pokemonDetail
+            .map { $0.height.converted }
+            .map { "키 : \($0)m" }
+            .bind(to: containerView.detailStackView.heightLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        pokemonDetail
+            .map { $0.weight.converted }
+            .map { "몸무게 : \($0)kg" }
+            .bind(to: containerView.detailStackView.weightLabel.rx.text)
             .disposed(by: disposeBag)
     }
 }

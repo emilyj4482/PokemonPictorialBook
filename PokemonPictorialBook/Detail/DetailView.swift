@@ -10,7 +10,7 @@ import UIKit
 /// Detail 화면의 container view
 class DetailView: UIView {
     
-    private lazy var detailStackView: DetailStackView = .init()
+    private(set) lazy var detailStackView: DetailStackView = .init()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,9 +35,5 @@ class DetailView: UIView {
             $0.verticalEdges.equalToSuperview().inset(48)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
-    }
-    
-    func configure(_ pokemon: PokemonDetail) {
-        detailStackView.configure(pokemon)
     }
 }

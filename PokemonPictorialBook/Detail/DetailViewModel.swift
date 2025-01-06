@@ -13,27 +13,32 @@ class DetailViewModel {
     
     private let disposeBag = DisposeBag()
     
-    private let networkManager = NetworkManager.shared
+    private let repository = PokemonRepository()
     
-    let pokemonDetail = PublishRelay<PokemonDetail>()
+    private let urlString: String
     
-    // Main에서 특정 포켓몬 url을 전달 받으면서 초기화. 기본값으로 메타몽 url
-    init(_ urlString: String = "https://pokeapi.co/api/v2/pokemon/132") {
-        fetchPokemonDetail(urlString)
+    init(_ urlString: String) {
+        self.urlString = urlString
     }
 
-    func fetchPokemonDetail(_ urlString: String) {
-        guard let url = URL(string: urlString) else { return }
+    func transform(_ input: Input) -> Output {
+        let pokemonDetail = input.load
+            .withUnretained(self)
+            .flatMapLatest { owner, _ in
+                owner.repository.fetchPokemonDetail(owner.urlString)
+            }
+            .asObservable()
         
-        networkManager.fetch(url: url)
-            .subscribe(
-                onSuccess: { [weak self] (response: PokemonDetail) in
-                    self?.pokemonDetail.accept(response)
-                },
-                onFailure: { error in
-                    print(error.localizedDescription)
-                }
-            )
-            .disposed(by: disposeBag)
+        return .init(pokemonDetail: pokemonDetail)
+    }
+}
+
+extension DetailViewModel {
+    struct Input {
+        let load: Observable<Void>
+    }
+    
+    struct Output {
+        let pokemonDetail: Observable<PokemonDetail>
     }
 }
