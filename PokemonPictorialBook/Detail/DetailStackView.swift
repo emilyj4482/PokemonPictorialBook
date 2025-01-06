@@ -70,7 +70,7 @@ class DetailStackView: UIStackView {
     }
     
     func configure(_ pokemon: Pokemon) {
-        guard let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(pokemon.id).png") else { return }
+        guard let url = URL(string: ImageURL.pokemon(id: pokemon.id).urlString) else { return }
         
         pokemonImageView.kf.setImage(with: url)
         

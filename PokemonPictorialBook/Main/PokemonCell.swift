@@ -48,7 +48,7 @@ class PokemonCell: UICollectionViewCell {
     }
     
     func configure(_ pokemon: PokemonResult) {
-        guard let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(pokemon.pokemonId).png") else { return }
+        guard let url = URL(string: ImageURL.pokemon(id: pokemon.pokemonId).urlString) else { return }
         pokemonImageView.kf.setImage(with: url)
     }
 }
