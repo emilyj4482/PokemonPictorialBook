@@ -48,8 +48,4 @@ class MainView: UIView {
             $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
-    
-    func updateCollectionViewDataSource(with items: [PokemonResult]) {
-        pokemonCollectionView.updateDataSource(with: items)
-    }
 }

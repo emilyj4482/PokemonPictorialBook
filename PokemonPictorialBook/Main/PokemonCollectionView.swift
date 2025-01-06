@@ -9,18 +9,6 @@ import UIKit
 
 /// MainView의 subview
 class PokemonCollectionView: UICollectionView {
-    private lazy var diffableDataSource: UICollectionViewDiffableDataSource<Section, PokemonResult> = {
-        return UICollectionViewDiffableDataSource(collectionView: self) { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell else { return UICollectionViewCell() }
-            
-            cell.configure(itemIdentifier)
-            
-            return cell
-        }
-    }()
-    
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, PokemonResult>()
-    
     init() {
         let layout: UICollectionViewCompositionalLayout = {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalWidth(1/3))
@@ -48,17 +36,5 @@ class PokemonCollectionView: UICollectionView {
         backgroundColor = .darkRed
         
         register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.identifier)
-
-        dataSource = diffableDataSource
-        snapshot.appendSections([.main])
     }
-    
-    func updateDataSource(with items: [PokemonResult]) {
-        snapshot.appendItems(items, toSection: .main)
-        diffableDataSource.apply(snapshot, animatingDifferences: true)
-    }
-}
-
-enum Section: CaseIterable {
-    case main
 }

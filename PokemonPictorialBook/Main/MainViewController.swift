@@ -50,22 +50,22 @@ class MainViewController: UIViewController {
     }
     
     private func bind() {
-        vm.pokemonList
-            .observe(on: MainScheduler.instance)
-            .subscribe(
-                onNext: { [weak self] pokemons in
-                    self?.containerView.updateCollectionViewDataSource(with: pokemons)
-                    self?.pokemons.append(contentsOf: pokemons)
-                }
-            )
-            .disposed(by: disposeBag)
+        let load = self.rx.viewWillAppear
+        let input = MainViewModel.Input(load: load)
+        let output = vm.transform(input)
         
-        containerView.pokemonCollectionView.rx.itemSelected
+        output.pokemonList
+            .bind(to: containerView.pokemonCollectionView.rx.items(cellIdentifier: PokemonCell.identifier, cellType: PokemonCell.self)) { index, pokemon, cell in
+                cell.configure(pokemon)
+            }
+            .disposed(by: disposeBag)
+
+        containerView.pokemonCollectionView.rx.modelSelected(PokemonResult.self)
+            .withUnretained(self)
             .subscribe(
-                onNext: { [weak self] indexPath in
-                    guard let self = self else { return }
-                    let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
-                    navigationController?.pushViewController(vc, animated: true)
+                onNext: { [weak self] owner, pokemon in
+                    let vc = DetailViewController(vm: .init(pokemon.url))
+                    self?.navigationController?.pushViewController(vc, animated: true)
                 }
             )
             .disposed(by: disposeBag)
@@ -75,7 +75,7 @@ class MainViewController: UIViewController {
                 onNext: { [weak self] in
                     guard let scrollView = self?.containerView.pokemonCollectionView else { return }
                     if scrollView.contentSize.height - scrollView.contentOffset.y == scrollView.visibleSize.height {
-                        self?.vm.fetchPokemonList()
+                        //self?.vm.fetchPokemonList()
                     }
                 }
             )
