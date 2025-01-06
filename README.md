@@ -33,7 +33,6 @@
 │   ├── +UIStackView.swift
 │   └── +UIView.swift
 ├── 📂 Network
-│   ├── NetworkError.swift
 │   ├── NetworkManager.swift
 │   └── PokemonAPI.swift
 ├── 📂 Model
@@ -206,4 +205,250 @@ containerView.pokemonCollectionView.rx.didEndDecelerating
 | ----- |
 | <img src="https://github.com/user-attachments/assets/0c07916c-a7f3-4c33-82a8-ce693642c14b" width=320> |
 #### `UIStackView`로 구성
+> `DetailView`라는 컨테이너 뷰에 오토레이아웃을 통해 `DetailStackView`가 박스의 가운데에 위치하도록 했습니다. 스택 뷰 내부에서도 속성이 같은 `label`에 대해 재사용이 가능한 코드로 구현하였습니다.
+```swift
+class DetailView: UIView {
+    private lazy var detailStackView: DetailStackView = .init()
 
+    private func layout() {
+        detailStackView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(48)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+    }
+}
+```
+```swift
+class DetailStackView: UIStackView {
+    private lazy var pokemonImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    private lazy var typeLabel = detailLabel()
+    
+    private lazy var heightLabel = detailLabel()
+    
+    private lazy var weightLabel = detailLabel()
+    
+    private func detailLabel() -> UILabel {
+        let label = UILabel()
+        
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .white
+        label.textAlignment = .center
+        
+        return label
+    }
+}
+```
+#### `UIImageView` - `Kingfisher` 활용
+> 포켓몬의 `id` 값만 교체하면 각 포켓몬의 이미지를 얻을 수 있는 `url`을 재사용하여 `Kingfisher`의 `setImage` 메소드에 전달해 `UI`와 연동했습니다.
+```swift
+enum ImageURL {
+    case pokemon(id: any Comparable)
+    
+    var urlString: String {
+        switch self {
+        case .pokemon(let id): "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(id).png"
+        }
+    }
+}
+```
+```swift
+class DetailStackView: UIStackView {
+    func configure(_ pokemon: Pokemon) {
+        guard let url = URL(string: ImageURL.pokemon(id: pokemon.id).urlString) else { return }
+        
+        pokemonImageView.kf.setImage(with: url)
+    }
+}
+```
+#### 포켓몬 이름과 타입 응답 값 번역을 위한 `Translator`
+> 포켓몬의 정보가 모두 영어기 때문에, 한국어로 표시하기 위해 `Translator` 코드를 작성하여 `UI`에 연동했습니다.
+```swift
+enum PokemonNameTranslator {
+    private static let koreanNames: [String: String] = [
+        "bulbasaur": "이상해씨",
+        "ivysaur": "이상해풀",
+        "venusaur": "이상해꽃",
+        "charmander": "파이리",
+        "charmeleon": "리자드",
+        "charizard": "리자몽",
+        "squirtle": "꼬부기",
+        "wartortle": "어니부기",
+        "blastoise": "거북왕",
+        // ... //
+    ]
+
+    static func getKoreanName(for englishName: String) -> String {
+        return koreanNames[englishName.lowercased()] ?? englishName
+    }
+}
+```
+```swift
+enum PokemonTypeTranslator: String {
+    case normal
+    case fire
+    case water
+    case electric
+    case grass
+    // ... //
+
+    var toKorean: String {
+        switch self {
+        case .normal: return "노말"
+        case .fire: return "불꽃"
+        case .water: return "물"
+        case .electric: return "전기"
+        case .grass: return "풀"
+        // ... //
+    }
+}
+```
+> 번역된 값은 `Model`의 `computed property`로 갖도록 구현
+```swift
+struct Pokemon: Decodable {
+    let id: Int
+    let name: String
+    let types: [PokemonType]
+    let height: Double
+    let weight: Double
+    
+    var translatedName: String {
+        PokemonNameTranslator.getKoreanName(for: name)
+    }
+}
+
+struct PokemonType: Decodable {
+    let type: PokemonTypeName
+}
+
+struct PokemonTypeName: Decodable {
+    let name: String
+    
+    var translatedType: String {
+        PokemonTypeTranslator(rawValue: name)?.toKorean ?? name
+    }
+}
+```
+> `UI`와의 바인딩 코드
+```swift
+class DetailStackView: UIStackView {
+    func configure(_ pokemon: Pokemon) {
+        nameLabel.text = "No.\(pokemon.id) \(pokemon.translatedName)"
+        typeLabel.text = "타입 : \(pokemon.types.map { $0.type.translatedType }.joined(separator: ", "))"
+    }
+}
+```
+#### 포켓몬의 키와 몸무게 값 정제 - `extension` 활용
+> `decimetre` 단위로 제공되는 `height` 값을 `metre` 단위로 표시하고, `hectogram` 단위로 제공되는 `weight` 값을 `kg` 단위로 표시하기 위해 `API response` 값에 각각 0.1 씩 곱하고, 이 과정에서 소수점 이하 자릿수가 지나치게 길게 표시되는 현상을 방지하기 위해 `String format`을 활용했습니다.
+```swift
+extension Double {
+    var converted: String {
+        String(format: "%.1f", self * 0.1)
+    }
+}
+```
+```swift
+class DetailStackView: UIStackView {
+    func configure(_ pokemon: Pokemon) {
+        heightLabel.text = "키 : \(pokemon.height.converted)m"
+        weightLabel.text = "몸무게 : \(pokemon.weight.converted)kg"
+    }
+}
+```
+| before | after |
+| ----- | ----- |
+| <img src="https://github.com/user-attachments/assets/10056b92-2c61-4718-8bc7-26c2a7ed13e1" width=320> | <img src="https://github.com/user-attachments/assets/7af9759a-46dd-48db-aac5-9f5415d00347" width=320> |
+#### 데이터 바인딩 - `Alamofire`, `RxSwift` 사용
+> 과제 요구사항에 따라 `NetworkManager`를 싱글톤으로 정의한 뒤 `Alamofire`를 통한 네트워크 통신 코드를 작성하였고, `Single`에 결과를 방출하도록 했습니다. `DetailViewModel`에서 그 값을 구독하여 `Relay`에 방출하는 방식으로 데이터 바인딩이 이루어지도록 했습니다.
+```swift
+class NetworkManager {
+    static let shared = NetworkManager()
+    
+    private init() {}
+    
+    func fetch<T: Decodable>(url: URL) -> Single<T> {
+        return Single.create { observer in
+            AF.request(url).responseDecodable(of: T.self) { response in
+                switch response.result {
+                case .success(let value):
+                    observer(.success(value))
+                case .failure(let error):
+                    observer(.failure(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+}
+```
+```swift
+class DetailViewModel {
+    private let disposeBag = DisposeBag()
+    private let networkManager = NetworkManager.shared
+    let pokemonDetail = PublishRelay<Pokemon>()
+
+    init(_ urlString: String = "https://pokeapi.co/api/v2/pokemon/132") {
+        fetchPokemonDetail(urlString)
+    }
+
+    func fetchPokemonDetail(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        
+        networkManager.fetch(url: url)
+            .subscribe(
+                onSuccess: { [weak self] (response: Pokemon) in
+                    self?.pokemonDetail.accept(response)
+                },
+                onFailure: { error in
+                    print(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+}
+```
+```swift
+class DetailViewController: UIViewController {
+    private let disposeBag = DisposeBag()
+    
+    var vm: DetailViewModel
+    
+    private lazy var containerView: DetailView = .init()
+
+    init(vm: DetailViewModel) {
+        self.vm = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    private func bind() {
+        vm.pokemonDetail
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { [weak self] pokemon in
+                    self?.containerView.configure(pokemon)
+                },
+                onError:  {
+                    print($0)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+}
+```
