@@ -17,6 +17,7 @@ class DetailViewModel {
     
     let pokemonDetail = PublishRelay<Pokemon>()
     
+    // Main에서 특정 포켓몬 url을 전달 받으면서 초기화. 기본값으로 메타몽 url
     init(_ urlString: String = "https://pokeapi.co/api/v2/pokemon/132") {
         fetchPokemonDetail(urlString)
     }

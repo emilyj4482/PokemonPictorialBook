@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Main 화면의 container view
 class MainView: UIView {
     
     private lazy var pokemonBallImageView: UIImageView = {

@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 import RxSwift
 
+/// Alamofire를 활용한 네트워크 통신 구현 - DetailViewModel에서 의존
 class NetworkManager {
     static let shared = NetworkManager()
     

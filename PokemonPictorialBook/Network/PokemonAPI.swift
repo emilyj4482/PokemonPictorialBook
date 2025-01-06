@@ -8,6 +8,7 @@
 import Foundation
 import Moya
 
+/// Moya를 활용한 네트워크 통신 환경 구축 - MainViewModel에서 사용
 enum PokemonAPI {
     case fetchURL(offset: Int)
 }

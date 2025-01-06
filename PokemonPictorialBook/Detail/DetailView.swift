@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Detail 화면의 container view
 class DetailView: UIView {
     
     private lazy var detailStackView: DetailStackView = .init()

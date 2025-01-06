@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// MainView의 subview
 class PokemonCollectionView: UICollectionView {
     private lazy var diffableDataSource: UICollectionViewDiffableDataSource<Section, PokemonResult> = {
         return UICollectionViewDiffableDataSource(collectionView: self) { collectionView, indexPath, itemIdentifier in

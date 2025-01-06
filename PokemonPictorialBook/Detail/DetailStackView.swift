@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// DetailView의 subview
 class DetailStackView: UIStackView {
     
     private lazy var pokemonImageView: UIImageView = {
