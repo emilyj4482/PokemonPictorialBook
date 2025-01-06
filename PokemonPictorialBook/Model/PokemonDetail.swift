@@ -1,5 +1,5 @@
 //
-//  Pokemon.swift
+//  PokemonDetail.swift
 //  PokemonPictorialBook
 //
 //  Created by EMILY on 29/12/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Pokemon: Decodable {
+struct PokemonDetail: Decodable {
     let id: Int
     let name: String
     let types: [PokemonType]

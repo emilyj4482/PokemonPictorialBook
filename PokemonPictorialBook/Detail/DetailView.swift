@@ -37,7 +37,7 @@ class DetailView: UIView {
         }
     }
     
-    func configure(_ pokemon: Pokemon) {
+    func configure(_ pokemon: PokemonDetail) {
         detailStackView.configure(pokemon)
     }
 }

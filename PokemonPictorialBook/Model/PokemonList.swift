@@ -1,5 +1,5 @@
 //
-//  PokemonURL.swift
+//  PokemonList.swift
 //  PokemonPictorialBook
 //
 //  Created by EMILY on 29/12/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PokemonURL: Decodable {
+struct PokemonList: Decodable {
     let results: [PokemonResult]
 }
 

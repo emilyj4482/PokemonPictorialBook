@@ -29,7 +29,7 @@ class MainViewModel {
         offset += 20
         
         provider.rx.request(.fetchURL(offset: offset))
-            .map(PokemonURL.self)
+            .map(PokemonList.self)
             .subscribe(
                 onSuccess: { [weak self] response in
                     self?.pokemonList.accept(response.results)
