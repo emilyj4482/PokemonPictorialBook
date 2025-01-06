@@ -12,6 +12,7 @@ import RxCocoa
 class DetailViewModel {
     
     private let disposeBag = DisposeBag()
+    
     private let networkManager = NetworkManager.shared
     
     let pokemonDetail = PublishRelay<Pokemon>()
@@ -21,9 +22,7 @@ class DetailViewModel {
     }
 
     func fetchPokemonDetail(_ urlString: String) {
-        guard let url = URL(string: urlString) else {
-            return
-        }
+        guard let url = URL(string: urlString) else { return }
         
         networkManager.fetch(url: url)
             .subscribe(

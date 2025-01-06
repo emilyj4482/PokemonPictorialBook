@@ -14,6 +14,7 @@ import RxCocoa
 class MainViewModel {
     
     private let disposeBag = DisposeBag()
+    
     private let provider = MoyaProvider<PokemonAPI>()
     
     let pokemonList = PublishRelay<[PokemonResult]>()

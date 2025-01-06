@@ -56,9 +56,6 @@ class MainViewController: UIViewController {
                 onNext: { [weak self] pokemons in
                     self?.containerView.updateCollectionViewDataSource(with: pokemons)
                     self?.pokemons.append(contentsOf: pokemons)
-                },
-                onError: { error in
-                    print(error)
                 }
             )
             .disposed(by: disposeBag)
