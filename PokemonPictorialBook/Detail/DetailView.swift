@@ -11,9 +11,6 @@ struct DetailView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Spacer()
-                    .frame(height: 50)
-                
                 VStack(spacing: 30) {
                     Image(.pokemonBall)
                         .resizable()
@@ -21,19 +18,24 @@ struct DetailView: View {
                         .frame(width: geometry.size.width / 3)
                     
                     Text("No.25 피카츄")
-                        .font(.title2)
+                        .font(.title)
+                        .bold()
                     
-                    VStack {
-                        
+                    VStack(spacing: 8) {
+                        Text("타입 : 전기")
+                        Text("키 : 0.4m")
+                        Text("몸무게 : 6.0kg")
                     }
+                    .font(.title3)
                 }
+                .padding(.vertical, 50)
                 .frame(maxWidth: .infinity)
                 .background(Color(uiColor: .darkRed))
-                .clipShape(.rect(cornerRadius: 20))
+                .clipShape(.rect(cornerRadius: 15))
                 
                 Spacer()
             }
-            .padding(.horizontal, 32)
+            .padding(.horizontal, 16)
             .foregroundStyle(.white)
             .background(Color(uiColor: .mainRed))
         }
