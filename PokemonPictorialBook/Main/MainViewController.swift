@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import SwiftUI
 
 class MainViewController: UIViewController {
     
@@ -64,7 +65,8 @@ class MainViewController: UIViewController {
             .subscribe(
                 onNext: { [weak self] indexPath in
                     guard let self = self else { return }
-                    let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
+                    let vc = UIHostingController(rootView: DetailView())
+                    // let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
                     navigationController?.pushViewController(vc, animated: true)
                 }
             )
