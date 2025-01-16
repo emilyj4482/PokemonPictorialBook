@@ -24,6 +24,8 @@ class DetailViewModel: ObservableObject {
         weight: 40
     )
     
+    let fetchedRelay = PublishRelay<Void>()
+    
     // Main에서 특정 포켓몬 url을 전달 받으면서 초기화
     init(_ urlString: String) {
         fetchPokemonDetail(urlString)
@@ -36,8 +38,10 @@ class DetailViewModel: ObservableObject {
             .subscribe(
                 onSuccess: { [weak self] (response: Pokemon) in
                     self?.pokemonDetail = response
+                    self?.fetchedRelay.accept(())
                 },
-                onFailure: { error in
+                onFailure: { [weak self] error in
+                    self?.fetchedRelay.accept(())
                     print(error.localizedDescription)
                 }
             )
