@@ -66,8 +66,8 @@ class MainViewController: UIViewController {
                 onNext: { [weak self] indexPath in
                     guard let self = self else { return }
                     let detailViewModel = DetailViewModel(pokemons[indexPath.item].url)
-                    let vc = UIHostingController(rootView: DetailView(vm: detailViewModel))
-                    navigationController?.pushViewController(vc, animated: true)
+                    let detailView = UIHostingController(rootView: DetailView(vm: detailViewModel))
+                    navigationController?.pushViewController(detailView, animated: true)
                 }
             )
             .disposed(by: disposeBag)
