@@ -65,8 +65,8 @@ class MainViewController: UIViewController {
             .subscribe(
                 onNext: { [weak self] indexPath in
                     guard let self = self else { return }
-                    let vc = UIHostingController(rootView: DetailView())
-                    // let vc = DetailViewController(vm: .init(pokemons[indexPath.item].url))
+                    let detailViewModel = DetailViewModel(pokemons[indexPath.item].url)
+                    let vc = UIHostingController(rootView: DetailView(vm: detailViewModel))
                     navigationController?.pushViewController(vc, animated: true)
                 }
             )

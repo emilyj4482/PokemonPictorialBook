@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DetailView: View {
+    
+    @StateObject var vm: DetailViewModel
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -17,14 +20,14 @@ struct DetailView: View {
                         .scaledToFit()
                         .frame(width: geometry.size.width / 3)
                     
-                    Text("No.25 피카츄")
+                    Text("No.\(vm.pokemonDetail.id) \(vm.pokemonDetail.translatedName)")
                         .font(.title)
                         .bold()
                     
                     VStack(spacing: 8) {
-                        Text("타입 : 전기")
-                        Text("키 : 0.4m")
-                        Text("몸무게 : 6.0kg")
+                        Text("타입 : \(vm.pokemonDetail.types.map { $0.type.translatedType }.joined(separator: ", "))")
+                        Text("키 : \(vm.pokemonDetail.height.converted)m")
+                        Text("몸무게 : \(vm.pokemonDetail.weight.converted)kg")
                     }
                     .font(.title3)
                 }
@@ -43,5 +46,5 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView()
+    DetailView(vm: DetailViewModel(""))
 }
