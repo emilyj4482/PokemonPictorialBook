@@ -14,29 +14,33 @@ struct DetailView: View {
     @Environment(\.dismiss) private var dismiss
     
     private let disposeBag = DisposeBag()
-    
-    @StateObject var vm: DetailViewModel
-    
-    @State var imageURL: URL?
+
+    @ObservedObject var vm: DetailViewModel
     
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
                 VStack {
                     VStack(spacing: 30) {
-                        KFImage(imageURL)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: geometry.size.width / 3)
-                        
-                        Text("No.\(vm.pokemonDetail.id) \(vm.pokemonDetail.translatedName)")
+                        if let imageURL = vm.imageURL {
+                            KFImage(imageURL)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width / 3)
+                        } else {
+                            Image(.ditto)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width / 3)
+                        }
+                        Text(vm.pokemonPresent.nameString)
                             .font(.title)
                             .bold()
                         
                         VStack(spacing: 8) {
-                            Text("타입 : \(vm.pokemonDetail.types.map { $0.type.translatedType }.joined(separator: ", "))")
-                            Text("키 : \(vm.pokemonDetail.height.converted)m")
-                            Text("몸무게 : \(vm.pokemonDetail.weight.converted)kg")
+                            Text(vm.pokemonPresent.typeString)
+                            Text(vm.pokemonPresent.heightString)
+                            Text(vm.pokemonPresent.weightString)
                         }
                         .font(.title3)
                     }
@@ -52,15 +56,7 @@ struct DetailView: View {
                 .background(Color(uiColor: .mainRed))
             }
             .onAppear {
-                vm.fetchedRelay
-                    .observe(on: MainScheduler.instance)
-                    .subscribe(
-                        onNext: {
-                            guard let url = URL(string: ImageURL.pokemon(id: vm.pokemonDetail.id).urlString) else { return }
-                            imageURL = url
-                        }
-                    )
-                    .disposed(by: disposeBag)
+                vm.didRequest.accept(())
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

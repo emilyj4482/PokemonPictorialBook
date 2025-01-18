@@ -13,36 +13,22 @@ class DetailViewModel: ObservableObject {
     
     private let disposeBag = DisposeBag()
     
-    private let networkManager = NetworkManager.shared
+    @Published var pokemonPresent: PokemonPresent = Pokemon.ditto.toPresent
     
-    // 기본값 메타몽
-    @Published var pokemonDetail: Pokemon = .init(
-        id: 132,
-        name: "ditto",
-        types: [PokemonType(type: PokemonTypeName(name: "normal"))],
-        height: 3,
-        weight: 40
-    )
+    @Published var imageURL: URL?
     
-    let fetchedRelay = PublishRelay<Void>()
+    let didRequest = PublishRelay<Void>()
     
-    // Main에서 특정 포켓몬 url을 전달 받으면서 초기화
-    init(_ urlString: String) {
-        fetchPokemonDetail(urlString)
-    }
-
-    func fetchPokemonDetail(_ urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        
-        networkManager.fetch(url: url)
+    init(_ url: URL, networkManager: NetworkManager = .shared) {
+        didRequest
+            .flatMap {
+                networkManager.fetch(url: url)
+            }
+            .observe(on: MainScheduler.instance)
             .subscribe(
-                onSuccess: { [weak self] (response: Pokemon) in
-                    self?.pokemonDetail = response
-                    self?.fetchedRelay.accept(())
-                },
-                onFailure: { [weak self] error in
-                    self?.fetchedRelay.accept(())
-                    print(error.localizedDescription)
+                onNext: { [weak self] (pokemon: Pokemon) in
+                    self?.pokemonPresent = pokemon.toPresent
+                    self?.imageURL = URL(string: ImageURL.pokemon(id: pokemon.id).urlString)
                 }
             )
             .disposed(by: disposeBag)

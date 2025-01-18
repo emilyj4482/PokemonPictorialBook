@@ -64,8 +64,11 @@ class MainViewController: UIViewController {
         containerView.pokemonCollectionView.rx.itemSelected
             .subscribe(
                 onNext: { [weak self] indexPath in
-                    guard let self = self else { return }
-                    let detailViewModel = DetailViewModel(pokemons[indexPath.item].url)
+                    guard
+                        let self = self,
+                        let url = URL(string: pokemons[indexPath.item].url)
+                    else { return }
+                    let detailViewModel = DetailViewModel(url)
                     let detailView = UIHostingController(rootView: DetailView(vm: detailViewModel))
                     navigationController?.pushViewController(detailView, animated: true)
                 }
