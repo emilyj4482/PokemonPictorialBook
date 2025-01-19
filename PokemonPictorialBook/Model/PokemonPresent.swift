@@ -13,14 +13,3 @@ struct PokemonPresent {
     let heightString: String
     let weightString: String
 }
-
-extension Pokemon {
-    var toPresent: PokemonPresent {
-        return PokemonPresent(
-            nameString: "No.\(self.id) \(self.translatedName)",
-            typeString: "타입 : \(self.types.map { $0.type.translatedType }.joined(separator: ", "))",
-            heightString: "키 : \(self.height.converted)m",
-            weightString: "몸무게 : \(self.weight.converted)kg"
-        )
-    }
-}

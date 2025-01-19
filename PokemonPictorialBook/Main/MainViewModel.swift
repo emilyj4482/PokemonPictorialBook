@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import Moya
-import RxMoya
 import RxSwift
 import RxCocoa
 
@@ -15,21 +13,21 @@ class MainViewModel {
     
     private let disposeBag = DisposeBag()
     
-    private let provider = MoyaProvider<PokemonAPI>()
+    let repository: PokemonRepositoryType
     
     let pokemonList = PublishRelay<[PokemonResult]>()
     
     private var offset: Int = -20
     
-    init() {
+    init(repository: PokemonRepositoryType = PokemonRepository()) {
+        self.repository = repository
         fetchPokemonList()
     }
     
     func fetchPokemonList() {
         offset += 20
         
-        provider.rx.request(.fetchURL(offset: offset))
-            .map(PokemonURL.self)
+        repository.fetchPokemonList(offset)
             .subscribe(
                 onSuccess: { [weak self] response in
                     self?.pokemonList.accept(response.results)

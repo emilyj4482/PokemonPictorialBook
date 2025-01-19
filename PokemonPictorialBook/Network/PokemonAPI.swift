@@ -10,7 +10,8 @@ import Moya
 
 /// Moya를 활용한 네트워크 통신 환경 구축 - MainViewModel에서 사용
 enum PokemonAPI {
-    case fetchURL(offset: Int)
+    case fetchPokemons(offset: Int)
+    case fetchKoreanName(id: String)
 }
 
 extension PokemonAPI: TargetType {
@@ -20,8 +21,10 @@ extension PokemonAPI: TargetType {
     
     var path: String {
         switch self {
-        case .fetchURL:
+        case .fetchPokemons:
             return "/pokemon"
+        case .fetchKoreanName(let id):
+            return "/pokemon-species/\(id)"
         }
     }
     
@@ -31,8 +34,10 @@ extension PokemonAPI: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .fetchURL(let offset):
+        case .fetchPokemons(let offset):
                 .requestParameters(parameters: ["limit": "20", "offset": "\(offset)"], encoding: URLEncoding.queryString)
+        case .fetchKoreanName:
+                .requestPlain
         }
     }
     
