@@ -6,24 +6,28 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxDataSources
 import NukeExtensions
 
 /// MainView의 subview
 class PokemonCollectionView: UICollectionView {
-    private lazy var diffableDataSource: UICollectionViewDiffableDataSource<Section, PokemonResult> = {
-        return UICollectionViewDiffableDataSource(collectionView: self) { collectionView, indexPath, itemIdentifier in
-            guard
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell,
-                let imageURL = URL(string: ImageURL.pokemon(id: itemIdentifier.pokemonId).urlString)
-            else { return UICollectionViewCell() }
-            
-            NukeExtensions.loadImage(with: imageURL, into: cell.pokemonImageView)
-            
-            return cell
-        }
-    }()
     
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, PokemonResult>()
+    private let disposeBag = DisposeBag()
+    
+    private let sectionsRelay = BehaviorRelay<[Section]>(value: [Section(header: "main", items: [])])
+    
+    private lazy var rxDataSource = RxCollectionViewSectionedReloadDataSource<Section> { datasource, collectionView, indexPath, item in
+        guard
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell,
+            let imageURL = URL(string: ImageURL.pokemon(id: item.pokemonId).urlString)
+        else { return UICollectionViewCell() }
+        
+        NukeExtensions.loadImage(with: imageURL, into: cell.pokemonImageView)
+        
+        return cell
+    }
     
     init() {
         let layout: UICollectionViewCompositionalLayout = {
@@ -42,6 +46,7 @@ class PokemonCollectionView: UICollectionView {
         
         super.init(frame: .zero, collectionViewLayout: layout)
         setup()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -52,17 +57,26 @@ class PokemonCollectionView: UICollectionView {
         backgroundColor = .darkRed
         
         register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.identifier)
-
-        dataSource = diffableDataSource
-        snapshot.appendSections([.main])
     }
     
-    func updateDataSource(with items: [PokemonResult]) {
-        snapshot.appendItems(items, toSection: .main)
-        diffableDataSource.apply(snapshot, animatingDifferences: true)
+    private func bind() {
+        sectionsRelay
+            .bind(to: rx.items(dataSource: rxDataSource))
+            .disposed(by: disposeBag)
     }
-}
 
-enum Section: CaseIterable {
-    case main
+    func updateDataSource(with items: [PokemonResult]) {
+        appendItems(items, toSection: 0)
+    }
+    
+    private func appendItems(_ items: [PokemonResult], toSection index: Int) {
+        var sections = sectionsRelay.value
+        guard index < sections.count else { return }
+        
+        var section = sections[index]
+        section.items.append(contentsOf: items)
+        sections[index] = section
+        
+        sectionsRelay.accept(sections)
+    }
 }

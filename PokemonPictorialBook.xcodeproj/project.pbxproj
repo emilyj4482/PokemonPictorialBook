@@ -14,6 +14,8 @@
 		A1B30A722D1F99AB00E6F4F4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B30A712D1F99AB00E6F4F4 /* SnapKit */; };
 		A1CA51FF2D3CDEB800E09553 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = A1CA51FE2D3CDEB800E09553 /* NukeExtensions */; };
 		A1CA52012D3CDEB800E09553 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = A1CA52002D3CDEB800E09553 /* NukeUI */; };
+		A1CA52042D3D093000E09553 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = A1CA52032D3D093000E09553 /* Differentiator */; };
+		A1CA52062D3D093000E09553 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = A1CA52052D3D093000E09553 /* RxDataSources */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +52,9 @@
 				A1CA51FF2D3CDEB800E09553 /* NukeExtensions in Frameworks */,
 				A12075082D2057C2007DD764 /* RxRelay in Frameworks */,
 				A12075052D2057A5007DD764 /* RxCocoa in Frameworks */,
+				A1CA52042D3D093000E09553 /* Differentiator in Frameworks */,
 				A120750B2D2057F2007DD764 /* Moya in Frameworks */,
+				A1CA52062D3D093000E09553 /* RxDataSources in Frameworks */,
 				A1B30A722D1F99AB00E6F4F4 /* SnapKit in Frameworks */,
 				A1CA52012D3CDEB800E09553 /* NukeUI in Frameworks */,
 			);
@@ -110,6 +114,8 @@
 				A120750C2D2057F2007DD764 /* RxMoya */,
 				A1CA51FE2D3CDEB800E09553 /* NukeExtensions */,
 				A1CA52002D3CDEB800E09553 /* NukeUI */,
+				A1CA52032D3D093000E09553 /* Differentiator */,
+				A1CA52052D3D093000E09553 /* RxDataSources */,
 			);
 			productName = PokemonPictorialBook;
 			productReference = A1B30A302D1F95C100E6F4F4 /* PokemonPictorialBook.app */;
@@ -144,6 +150,7 @@
 				A12075032D2057A5007DD764 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				A12075092D2057F2007DD764 /* XCRemoteSwiftPackageReference "Moya" */,
 				A1CA51FD2D3CDEB800E09553 /* XCRemoteSwiftPackageReference "Nuke" */,
+				A1CA52022D3D093000E09553 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1B30A312D1F95C100E6F4F4 /* Products */;
@@ -405,6 +412,14 @@
 				minimumVersion = 12.8.0;
 			};
 		};
+		A1CA52022D3D093000E09553 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -442,6 +457,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A1CA51FD2D3CDEB800E09553 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;
+		};
+		A1CA52032D3D093000E09553 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1CA52022D3D093000E09553 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
+		};
+		A1CA52052D3D093000E09553 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1CA52022D3D093000E09553 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

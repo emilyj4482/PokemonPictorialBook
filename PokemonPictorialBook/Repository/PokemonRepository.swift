@@ -29,7 +29,8 @@ class PokemonRepository: PokemonRepositoryType {
     }
     
     func fetchPokemonDetail(_ url: URL) -> Observable<Pokemon> {
-        return networkManager.fetch(url: url).asObservable()
+        return networkManager.fetch(url: url)
+            .asObservable()
     }
     
     func fetchPokemonKoreanName(_ id: String) -> Observable<PokemonSpecies> {

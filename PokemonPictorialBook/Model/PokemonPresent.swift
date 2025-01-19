@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// DetailView에 바인딩하는 형태
 struct PokemonPresent {
     let nameString: String
     let typeString: String
