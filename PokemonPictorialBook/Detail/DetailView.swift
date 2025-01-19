@@ -7,7 +7,7 @@
 
 import SwiftUI
 import RxSwift
-import Kingfisher
+import NukeUI
 
 struct DetailView: View {
     
@@ -22,26 +22,28 @@ struct DetailView: View {
             GeometryReader { geometry in
                 VStack {
                     VStack(spacing: 30) {
-                        if let imageURL = vm.imageURL {
-                            KFImage(imageURL)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: geometry.size.width / 3)
-                        } else {
-                            Image(.pokemonBall)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: geometry.size.width / 3)
+                        LazyImage(url: vm.imageURL) { state in
+                            if let image = state.image {
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: geometry.size.width / 3)
+                            } else {
+                                Image(.pokemonBall)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width / 3)
+                            }
                         }
                         
-                        Text(vm.pokemonPresent?.nameString ?? "")
+                        Text(vm.pokemonPresent?.nameString ?? " ")
                             .font(.title)
                             .bold()
                         
                         VStack(spacing: 8) {
-                            Text(vm.pokemonPresent?.typeString ?? "")
-                            Text(vm.pokemonPresent?.heightString ?? "")
-                            Text(vm.pokemonPresent?.weightString ?? "")
+                            Text(vm.pokemonPresent?.typeString ?? " ")
+                            Text(vm.pokemonPresent?.heightString ?? " ")
+                            Text(vm.pokemonPresent?.weightString ?? " ")
                         }
                         .font(.title3)
                     }
