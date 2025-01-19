@@ -20,6 +20,17 @@ class MainView: UIView {
     }()
     
     private(set) lazy var pokemonCollectionView: PokemonCollectionView = .init()
+    
+    private lazy var loadingIndicatorView: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        
+        indicator.color = .gray
+        indicator.style = .large
+        indicator.hidesWhenStopped = true
+        indicator.startAnimating()
+        
+        return indicator
+    }()
      
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,7 +43,7 @@ class MainView: UIView {
     }
     
     private func addSubviews() {
-        addSubviews([pokemonBallImageView, pokemonCollectionView])
+        addSubviews([pokemonBallImageView, pokemonCollectionView, loadingIndicatorView])
     }
     
     private func layout() {
@@ -47,9 +58,21 @@ class MainView: UIView {
             $0.top.equalTo(pokemonBallImageView.snp.bottom).offset(10)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
+        
+        loadingIndicatorView.snp.makeConstraints {
+            $0.center.equalTo(pokemonCollectionView)
+        }
     }
     
     func updateCollectionViewDataSource(with items: [PokemonResult]) {
         pokemonCollectionView.updateDataSource(with: items)
+    }
+    
+    func showIndicator() {
+        loadingIndicatorView.startAnimating()
+    }
+    
+    func hideIndicator() {
+        loadingIndicatorView.stopAnimating()
     }
 }

@@ -56,6 +56,7 @@ class MainViewController: UIViewController {
             .subscribe(
                 onNext: { [weak self] pokemons in
                     self?.containerView.updateCollectionViewDataSource(with: pokemons)
+                    self?.containerView.hideIndicator()
                     self?.pokemons.append(contentsOf: pokemons)
                 }
             )
@@ -80,6 +81,7 @@ class MainViewController: UIViewController {
                 onNext: { [weak self] in
                     guard let scrollView = self?.containerView.pokemonCollectionView else { return }
                     if scrollView.contentSize.height - scrollView.contentOffset.y == scrollView.visibleSize.height {
+                        self?.containerView.showIndicator()
                         self?.vm.fetchPokemonList()
                     }
                 }
