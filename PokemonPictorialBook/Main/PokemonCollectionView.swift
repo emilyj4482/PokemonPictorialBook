@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import NukeExtensions
 
 /// MainView의 subview
 class PokemonCollectionView: UICollectionView {
     private lazy var diffableDataSource: UICollectionViewDiffableDataSource<Section, PokemonResult> = {
         return UICollectionViewDiffableDataSource(collectionView: self) { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell else { return UICollectionViewCell() }
+            guard
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.identifier, for: indexPath) as? PokemonCell,
+                let imageURL = URL(string: ImageURL.pokemon(id: itemIdentifier.pokemonId).urlString)
+            else { return UICollectionViewCell() }
             
-            cell.configure(itemIdentifier)
+            NukeExtensions.loadImage(with: imageURL, into: cell.pokemonImageView)
             
             return cell
         }

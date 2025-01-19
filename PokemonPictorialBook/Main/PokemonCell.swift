@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import Kingfisher
 
 class PokemonCell: UICollectionViewCell {
     static let identifier = "PokemonCell"
     
-    private lazy var pokemonImageView: UIImageView = {
+    private(set) lazy var pokemonImageView: UIImageView = {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFit
@@ -45,10 +44,5 @@ class PokemonCell: UICollectionViewCell {
         pokemonImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    func configure(_ pokemon: PokemonResult) {
-        guard let url = URL(string: ImageURL.pokemon(id: pokemon.pokemonId).urlString) else { return }
-        pokemonImageView.kf.setImage(with: url)
     }
 }
