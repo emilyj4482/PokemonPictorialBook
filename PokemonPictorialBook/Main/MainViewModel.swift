@@ -17,6 +17,8 @@ class MainViewModel {
     
     let pokemonList = PublishRelay<[PokemonResult]>()
     
+    let errorRelay = PublishRelay<Void>()
+    
     private var offset: Int = -20
     
     init(repository: PokemonRepositoryType = PokemonRepository()) {
@@ -32,8 +34,8 @@ class MainViewModel {
                 onSuccess: { [weak self] response in
                     self?.pokemonList.accept(response.results)
                 },
-                onFailure: { error in
-                    print(error.localizedDescription)
+                onFailure: { [weak self] _ in
+                    self?.errorRelay.accept(())
                 }
             )
             .disposed(by: disposeBag)
